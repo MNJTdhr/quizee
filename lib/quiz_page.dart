@@ -13,9 +13,11 @@ class _QuizPageState extends State<QuizPage> {
     'You can lead a cow down stairs but not up stairs.',
     'Approximately one quarter of human bones are in the feet.',
     'A slug\'s blood is green.',
+    'The End',
   ];
-
+  List<bool> correctAnswer = [false, true, true, false];
   int questionNumber = 0;
+  int answerNumber = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _QuizPageState extends State<QuizPage> {
               width: double.infinity,
               child: Center(
                 child: Text(
-                  "Questions will go here?",
+                  questions[questionNumber],
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30,
@@ -44,69 +46,76 @@ class _QuizPageState extends State<QuizPage> {
             child: Column(
               children: [
                 Center(
-                  child: MyButton(
-                    "True",
-                    Colors.green,
+                  child: TextButton(
+                    style: TextButton.styleFrom(backgroundColor: Colors.green),
+                    onPressed: () {
+                      if (correctAnswer[answerNumber] == true) {
+                        debugPrint("correct");
+                      } else {
+                        debugPrint("wrong");
+                      }
+                      setState(
+                        () {
+                          questionNumber++;
+                          answerNumber++;
+                        },
+                      );
+                    },
+                    child: SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          "True",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 Center(
-                  child: MyButton(
-                    "False",
-                    Colors.red,
+                  child: TextButton(
+                    style: TextButton.styleFrom(backgroundColor: Colors.red),
+                    onPressed: () {
+                      if (correctAnswer[answerNumber] == false) {
+                        debugPrint("Correct");
+                      } else {
+                        debugPrint("wrong");
+                      }
+                      setState(
+                        () {
+                          questionNumber++;
+                          answerNumber++;
+                        },
+                      );
+                    },
+                    child: SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          "False",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.check,
-                      color: Colors.green,
-                    ),
-                    Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ),
-                  ],
-                )
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class MyButton extends StatelessWidget {
-  const MyButton(this.theText, this.color1, {super.key});
-
-  final String theText;
-  final Color color1;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: TextButton(
-        onPressed: () {},
-        style: TextButton.styleFrom(
-          backgroundColor: color1,
-        ),
-        child: SizedBox(
-          width: 300,
-          height: 50,
-          child: Center(
-            child: Text(
-              theText,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
       ),
     );
   }
