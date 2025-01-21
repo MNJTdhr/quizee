@@ -1,4 +1,8 @@
+//quizpage
 import 'package:flutter/material.dart';
+import 'quiz_brain.dart';
+
+QuizBrain quizBrain = QuizBrain();    //an object of quizbrain
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -9,13 +13,7 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
-  List<String> questions = [
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.',
-    'The End',
-  ];
-  List<bool> correctAnswer = [false, true, true, false];
+
   int questionNumber = 0;
   int answerNumber = 0;
 
@@ -31,7 +29,7 @@ class _QuizPageState extends State<QuizPage> {
               width: double.infinity,
               child: Center(
                 child: Text(
-                  questions[questionNumber],
+                  quizBrain.questionBank[questionNumber].quizQuestions,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30,
@@ -49,7 +47,7 @@ class _QuizPageState extends State<QuizPage> {
                   child: TextButton(
                     style: TextButton.styleFrom(backgroundColor: Colors.green),
                     onPressed: () {
-                      if (correctAnswer[answerNumber] == true) {
+                      if (quizBrain.questionBank[answerNumber].quizAnswers == true) {
                         debugPrint("correct");
                       } else {
                         debugPrint("wrong");
@@ -84,7 +82,7 @@ class _QuizPageState extends State<QuizPage> {
                   child: TextButton(
                     style: TextButton.styleFrom(backgroundColor: Colors.red),
                     onPressed: () {
-                      if (correctAnswer[answerNumber] == false) {
+                      if (quizBrain.questionBank[answerNumber].quizAnswers == false) {
                         debugPrint("Correct");
                       } else {
                         debugPrint("wrong");
