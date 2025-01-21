@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'quiz_brain.dart';
 
-QuizBrain quizBrain = QuizBrain();    //an object of quizbrain
+QuizBrain quizBrain = QuizBrain(); //an object of quizbrain
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -14,8 +14,29 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  int questionNumber = 0;
-  int answerNumber = 0;
+  void checkAnswer(bool answerFromUser) {
+    bool correctAns = quizBrain.getquestionAnswer();
+    setState(
+      () {
+        if (correctAns == answerFromUser) {
+          scoreKeeper.add(
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          );
+        } else {
+          scoreKeeper.add(
+            Icon(
+              Icons.close,
+              color: Colors.red,
+            ),
+          );
+        }
+        quizBrain.nextQuestion();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +50,7 @@ class _QuizPageState extends State<QuizPage> {
               width: double.infinity,
               child: Center(
                 child: Text(
-                  quizBrain.questionBank[questionNumber].quizQuestions,
+                  quizBrain.getquestionText(),
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30,
@@ -47,17 +68,7 @@ class _QuizPageState extends State<QuizPage> {
                   child: TextButton(
                     style: TextButton.styleFrom(backgroundColor: Colors.green),
                     onPressed: () {
-                      if (quizBrain.questionBank[answerNumber].quizAnswers == true) {
-                        debugPrint("correct");
-                      } else {
-                        debugPrint("wrong");
-                      }
-                      setState(
-                        () {
-                          questionNumber++;
-                          answerNumber++;
-                        },
-                      );
+                      checkAnswer(true);
                     },
                     child: SizedBox(
                       width: 300,
@@ -82,17 +93,7 @@ class _QuizPageState extends State<QuizPage> {
                   child: TextButton(
                     style: TextButton.styleFrom(backgroundColor: Colors.red),
                     onPressed: () {
-                      if (quizBrain.questionBank[answerNumber].quizAnswers == false) {
-                        debugPrint("Correct");
-                      } else {
-                        debugPrint("wrong");
-                      }
-                      setState(
-                        () {
-                          questionNumber++;
-                          answerNumber++;
-                        },
-                      );
+                      checkAnswer(false);
                     },
                     child: SizedBox(
                       width: 300,
@@ -109,6 +110,9 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                     ),
                   ),
+                ),
+                Row(
+                  children: scoreKeeper,
                 ),
               ],
             ),
